@@ -23,7 +23,7 @@ void print_file_metadata(char* file_name)
     printf("\n");
 }
 
-int print_hex(char *file_name)
+int print_hex(char *file_name,unsigned long int start_byte,unsigned long int no_of_bytes)
 {
     FILE *input_file;
 
