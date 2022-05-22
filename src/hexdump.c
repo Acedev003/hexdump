@@ -1,29 +1,36 @@
 #include<stdio.h>
+#include<stdint.h>
 #include<sys/stat.h>
+#include"hexdump.h"
 
-#define MAX_LINE_BITS   8
+#define MIN_LINE_BITS   8
 #define BYTES_PER_LINE  16
 #define LINES_PER_BLOCK 100
-#define BLOCK_SIZE      (MAX_LINE_BITS + 2 + (3*BYTES_PER_LINE) + 2 + 1 + BYTES_PER_LINE + 1 + 1)*LINES_PER_BLOCK + 1
+#define BLOCK_SIZE      (MIN_LINE_BITS + 2 + (3*BYTES_PER_LINE) + 2 + 1 + BYTES_PER_LINE + 1 + 1)*LINES_PER_BLOCK + 1
 #define PRINTABLE_MIN   32
 #define PRINTABLE_MAX   126
 
-#define FALSE 0
-#define TRUE  1
 
-void print_file_metadata(char* file_name)
+int print_file_metadata(char* file_name)
 {
     struct stat file_data;  
 
     printf("File : %s\n",file_name);
     if(stat(file_name,&file_data) == 0)
     {
-        printf("Size : %ld bytes\n",file_data.st_size);
+        printf("Size : %lld bytes\n\n",file_data.st_size);
     }
-    printf("\n");
+    if(file_data.st_size >= UINT64_MAX-1000)
+    {
+        fprintf(stderr,"\nError: Too large file\n");
+        return -1;
+    }
+    return 0;
 }
 
-int print_hex(char *file_name,unsigned long int start_byte,unsigned long int no_of_bytes)
+
+
+int print_hex(char *file_name,uint64_t start_byte,uint64_t no_of_bytes)
 {
     FILE *input_file;
 
@@ -34,7 +41,11 @@ int print_hex(char *file_name,unsigned long int start_byte,unsigned long int no_
         return -1;
     }
 
-    print_file_metadata(file_name);
+    int size_check = print_file_metadata(file_name);
+    if(size_check < 0)
+    {
+        return -1;
+    }
 
     /*
     * Scratched my head here for 1 week ..... 
@@ -47,8 +58,8 @@ int print_hex(char *file_name,unsigned long int start_byte,unsigned long int no_
     int line_cursor   = 0;
     int line_printed = FALSE;
 
-    unsigned long int bytes_read = 0; 
-    unsigned long int line_count = 0;
+    uint64_t bytes_read = 0; 
+    uint64_t line_count = 0;
 
     unsigned char buffer[3200];
 
@@ -68,7 +79,7 @@ int print_hex(char *file_name,unsigned long int start_byte,unsigned long int no_
         {
             printf(
                 "%.*x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
-                MAX_LINE_BITS, line_count,
+                MIN_LINE_BITS, line_count,
                 line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],
                 line[8],line[9],line[10],line[11],line[12],line[13],line[14],line[15],
                 (line[ 0] >= PRINTABLE_MIN && line[ 0] <= PRINTABLE_MAX) ? line[ 0] : '.',
@@ -116,7 +127,7 @@ int print_hex(char *file_name,unsigned long int start_byte,unsigned long int no_
         }
         printf(
                 "%.*x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
-                MAX_LINE_BITS, line_count,
+                MIN_LINE_BITS, line_count,
                 line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],
                 line[8],line[9],line[10],line[11],line[12],line[13],line[14],line[15],
                 (line[ 0] >= PRINTABLE_MIN && line[ 0] <= PRINTABLE_MAX) ? line[ 0] : '.',
