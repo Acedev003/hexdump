@@ -3,20 +3,22 @@
 #include<string.h>
 #include<limits.h>
 #include<stdint.h>
+#include<errno.h>
 #include "hexdump.h"
-
-
-#define HEXDUMP_VERSION "0.0.1"
-
 
 int main(int argc,char* argv[])
 {
-    uint64_t start_byte = 0,no_of_bytes = 0;
-    short int save_to_file = FALSE;
-    char *end_ptr;
+
+    uint64_t start_byte  = 0;
+    uint64_t no_of_bytes = 0;
+
+    int save_to_file = FALSE;
+    int file_name_index = 0;
+
+    char *number_end_ptr;
+
 
     printf("Hexdump:v%s \n\n",HEXDUMP_VERSION);
-
 
     if(argc % 2 != 0)
     {
@@ -34,16 +36,16 @@ int main(int argc,char* argv[])
                 case 'h':
                 case '?': printf("A simple command line utility to view the hex contents of any given file.\n");
                           printf("\nUsage:\n\n");
-                          printf("   1.%s -s <start_byte> -n <no_of_bytes> -f <output_file>\n",argv[0]);
+                          printf("   1.%s -s <start_byte> -n <no_of_bytes> -f <output_file> <input_file_name>\n",argv[0]);
                           printf("   2.%s -h (or -?) for help\n\n",argv[0]);
-                          printf(" -s: starts printing values after the specified amount of bytes\n");
-                          printf(" -n: prints values for 'n' bytes\n");
+                          printf(" -s: starts printing values after the specified amount of bytes (Default value: 0)\n");
+                          printf(" -n: prints values for 'n' bytes (Default value: 0)\n");
                           printf(" -f: Saves output into the specified file instead of printing to console\n\n");
                           printf(" -h or -?: View help\n");
                           return 0;
 
-                case 's': start_byte = strtoull(argv[i+1],&end_ptr,10);
-                          if(end_ptr == argv[i+1] || *end_ptr != '\0')
+                case 's': start_byte = strtoull(argv[i+1],&number_end_ptr,10);
+                          if(number_end_ptr == argv[i+1] || *number_end_ptr != '\0')
                           {
                               fprintf(stderr,"\nError: Failed to parse -s value");
                               return -1;
@@ -55,8 +57,8 @@ int main(int argc,char* argv[])
                           }
                           break;
 
-                case 'n': no_of_bytes = strtol(argv[i+1],NULL,10);
-                          if(end_ptr == argv[i+1] || *end_ptr != '\0')
+                case 'n': no_of_bytes = strtoull(argv[i+1],&number_end_ptr,10);
+                          if(number_end_ptr == argv[i+1] || *number_end_ptr != '\0')
                           {
                               fprintf(stderr,"\nError: Failed to parse -n value");
                               return -1;
@@ -67,7 +69,9 @@ int main(int argc,char* argv[])
                               return -1;
                           }
                           break;
-                case 'f': save_to_file = TRUE;
+                          
+                case 'f': save_to_file    = TRUE;
+                          file_name_index = i + 1;
                           break;
             }
         }

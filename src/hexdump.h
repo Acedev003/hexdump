@@ -1,9 +1,11 @@
 #ifndef HEXDUMP_H
 #define HEXDUMP_H
 
+#define HEXDUMP_VERSION "0.0.1"
+
 #define FALSE 0
 #define TRUE  1
 
-int print_hex(char *file_name,unsigned long long int start_byte,unsigned long long int no_of_bytes);
+int print_hex(char *file_name,uint64_t start_byte,uint64_t no_of_bytes);
 
 #endif
