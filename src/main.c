@@ -33,20 +33,18 @@ int main(int argc,char* argv[])
         {
             switch(argv[i][1])
             {
-                case 'h':
-                case '?': printf("A simple command line utility to view the hex contents of any given file.\n");
-                          printf("\nUsage:\n\n");
-                          printf("   1.%s -s <start_byte> -n <no_of_bytes> -f <output_file> <input_file_name>\n",argv[0]);
-                          printf("   2.%s -h (or -?) for help\n\n",argv[0]);
-                          printf(" -s: starts printing values after the specified amount of bytes (Default value: 0)\n");
-                          printf(" -n: prints values for 'n' bytes (Default value: 0)\n");
-                          printf(" -f: Saves output into the specified file instead of printing to console\n\n");
-                          printf(" -h or -?: View help\n");
+                case 'h': printf("Usage:\n\n");
+                          printf("   %s [options] <file_name>\n\n",argv[0]);
+                          printf("Options:\n\n");
+                          printf(" -s: skips specified amount of bytes (Default value: 0)\n");
+                          printf(" -n: interpret only 'n' bytes of input (Default value: 0)\n");
+                          printf(" -f: Saves output into the specified file instead of printing to console\n");
+                          printf(" -h: View help\n");
                           return 0;
 
                 case 's': start_byte = strtoull(argv[i+1],&number_end_ptr,10);
                           if(number_end_ptr == argv[i+1] || *number_end_ptr != '\0')
-                          {
+                          { 
                               fprintf(stderr,"\nError: Failed to parse -s value");
                               return -1;
                           }
