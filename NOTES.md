@@ -1,4 +1,4 @@
-####Lessons Learnt
+#### Lessons Learnt
 
 1. fget() did not parse file completely and stops prematurely with a return type of EOF.
     Cause of error exactly described in the first link below
