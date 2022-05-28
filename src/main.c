@@ -34,8 +34,8 @@ int main(int argc,char* argv[])
                           printf("   %s [options] <file_name>\n\n",argv[0]);
                           printf("Options:\n\n");
                           printf(" -s: skips specified amount of bytes (Default value: 0)\n");
-                          printf(" -n: interpret only 'n' bytes of input (Default value: 0)\n");
-                          printf(" -f: Saves output into the specified file instead of printing to console\n");
+                          printf(" -n: interpret only 'n' bytes of input (Default value: 0) [Prints entire file if value is 0 or below]\n");
+                          printf(" -f: Saves output into the specified file\n");
                           printf(" -h: View help\n");
                           return 0;
 
