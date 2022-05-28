@@ -9,7 +9,6 @@ hexdump.o: src/hexdump.c
 main.o: src/main.c
 	$(CC) -c src/main.c
 
-
 debug:  dmain.o dhexdump.o
 	$(CC) -g -Wall main.o hexdump.o -o bin/hexdump
 

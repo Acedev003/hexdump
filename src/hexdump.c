@@ -47,7 +47,7 @@ int print_hex(char *input_file_name,uint64_t start_byte,uint64_t no_of_bytes,cha
     fprintf(output_stream,"File : %s\n",input_file_name);
     if(stat(input_file_name,&file_data) == 0)
     {
-        fprintf(output_stream,"Size : %lld bytes\n\n",file_data.st_size);
+        fprintf(output_stream,"Size : %ld bytes\n\n",file_data.st_size);
     }
     else
     {
@@ -78,12 +78,11 @@ int print_hex(char *input_file_name,uint64_t start_byte,uint64_t no_of_bytes,cha
     int int_byte;               // Refer NOTES (LL1)
     
     int line_cursor   = 0;
-    int last_line_printed = FALSE;
 
     uint64_t byte_cursor = ftell(input_stream); 
     uint64_t line_count = byte_cursor / BYTES_PER_LINE;
 
-    unsigned char printf_buffer[PRINTF_BUFFER_SIZE];
+    char printf_buffer[PRINTF_BUFFER_SIZE];
     unsigned char line[BYTES_PER_LINE];                     // Refer NOTES (LL2)
 
     setvbuf(output_stream,printf_buffer,_IOFBF,sizeof(printf_buffer));
@@ -110,7 +109,7 @@ int print_hex(char *input_file_name,uint64_t start_byte,uint64_t no_of_bytes,cha
         }
 
         fprintf(output_stream,
-                "%.*x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
+                "%.*llx  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
                 LINE_COUNTER_WIDTH, line_count,
                 line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],
                 line[8],line[9],line[10],line[11],line[12],line[13],line[14],line[15],
@@ -144,7 +143,7 @@ int print_hex(char *input_file_name,uint64_t start_byte,uint64_t no_of_bytes,cha
         if( line_cursor == BYTES_PER_LINE )
         {
             fprintf(output_stream,
-                "%.*x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
+                "%.*llx  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
                 LINE_COUNTER_WIDTH, line_count,
                 line[0],line[1],line[2],line[3],line[4],line[5],line[6],line[7],
                 line[8],line[9],line[10],line[11],line[12],line[13],line[14],line[15],
@@ -189,7 +188,7 @@ int print_hex(char *input_file_name,uint64_t start_byte,uint64_t no_of_bytes,cha
         line[i] = 0;
     }
     fprintf(output_stream,
-        "%.*x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
+        "%.*llx  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  %.2x %.2x %.2x %.2x %.2x %.2x %.2x %.2x  |%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c|\n",
         LINE_COUNTER_WIDTH, line_count,
         line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7],
         line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15],
