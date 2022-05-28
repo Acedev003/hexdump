@@ -1,7 +1,7 @@
 #ifndef HEXDUMP_H
 #define HEXDUMP_H
 
-#define HEXDUMP_VERSION "0.0.1"
+#define HEXDUMP_VERSION "0.1.0"
 
 #define FALSE 0
 #define TRUE  1
