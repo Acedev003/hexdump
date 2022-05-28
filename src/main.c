@@ -17,9 +17,6 @@ int main(int argc,char* argv[])
 
     char *number_end_ptr;
 
-
-    printf("Hexdump:v%s \n\n",HEXDUMP_VERSION);
-
     if(argc % 2 != 0)
     {
         fprintf(stderr,"\nIncomplete Parameters. Type [%s -h] for all available options.\n",argv[0]);
@@ -77,11 +74,11 @@ int main(int argc,char* argv[])
 
     if(!save_to_file)
     {
-        print_hex(argv[argc-1],start_byte,no_of_bytes);
+        print_hex(argv[argc-1],start_byte,no_of_bytes,NULL);
     }
     else
     {
-        //TODO
+        print_hex(argv[argc-1],start_byte,no_of_bytes,argv[file_name_index]);
     }
 
     return 0;
