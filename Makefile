@@ -4,10 +4,10 @@ hexdump: main.o hexdump.o
 	$(CC) main.o hexdump.o -o bin/hexdump
 
 hexdump.o: src/hexdump.c
-	$(CC) -c src/hexdump.c
+	$(CC) -c -Ofast src/hexdump.c
 
 main.o: src/main.c
-	$(CC) -c src/main.c
+	$(CC) -c -Ofast src/main.c
 
 debug:  dmain.o dhexdump.o
 	$(CC) -g -Wall main.o hexdump.o -o bin/hexdump
