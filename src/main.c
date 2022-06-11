@@ -26,7 +26,7 @@ int main(int argc,char* argv[])
             case 'h' : print_usage(argv[0]);
                        return EXIT_SUCCESS;
 
-            case 's' : start_byte = strtoull(optarg,&number_end_ptr,10);
+            case 's' : start_byte = strtoull(optarg,&number_end_ptr,0);
                        if(number_end_ptr == optarg || *number_end_ptr != '\0')
                        { 
                            fprintf(stderr,"\nError: Failed to parse -s value");
@@ -39,7 +39,7 @@ int main(int argc,char* argv[])
                        }
                        break;
 
-            case 'n' : no_of_bytes = strtoull(optarg,&number_end_ptr,10);
+            case 'n' : no_of_bytes = strtoull(optarg,&number_end_ptr,0);
                        if (number_end_ptr == optarg || *number_end_ptr != '\0')
                        {
                            fprintf(stderr, "\nError: Failed to parse -n value");
