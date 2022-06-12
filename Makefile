@@ -5,8 +5,7 @@ hexdump: src/main.c
 	$(CC) $(CFLAGS) -o $@ src/main.c
 
 clean:
-	rm -f *.o bin/hexdump
+	rm -f *.exe
 
 win-clean:
-	del *.o
-	del	bin\hexdump.exe
+	del	*.exe
