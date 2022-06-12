@@ -1,22 +1,8 @@
-CC=gcc
+CC     = gcc
+CFLAGS = -Wall -Wextra -O3
 
-hexdump: main.o hexdump.o
-	$(CC) main.o hexdump.o -o bin/hexdump
-
-hexdump.o: src/hexdump.c
-	$(CC) -c -Ofast src/hexdump.c
-
-main.o: src/main.c
-	$(CC) -c -Ofast src/main.c
-
-debug:  dmain.o dhexdump.o
-	$(CC) -g -Wall main.o hexdump.o -o bin/hexdump
-
-dhexdump.o: src/hexdump.c
-	$(CC) -g -Wall -c src/hexdump.c
-
-dmain.o: src/main.c
-	$(CC) -g -Wall -c src/main.c
+hexdump: src/main.c
+	$(CC) $(CFLAGS) -o $@ src/main.c
 
 clean:
 	rm -f *.o bin/hexdump
